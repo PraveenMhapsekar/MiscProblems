@@ -5,17 +5,20 @@
 int reverse(int A) {
 	long long int a = 0;
 	long long int b = abs(A);
-	while (b != 0)
-	{
-		a *= 10;
-		a += (b%10);
-		b /= 10;
+
+	while (b != 0) {
+		a = a * 10;        // multiply by 10 i.e left shift to next digit
+		a = (a + (b % 10));  // Extract and add last digit
+		b = b / 10;        // Divide number by 10
 	}
 
+  // Take care of sign
 	if (A < 0)
 		a *= -1;
-	if (a > INT_MAX || a < INT_MIN)
+
+	if (a > INT_MAX || a < INT_MIN) {
 		return 0;
+  }
 
   return a;
 }
@@ -24,7 +27,7 @@ int reverse(int A) {
 int
 main() {
   int i =  -234567;
-  printf("num: %d\t, reverese num =%d\t:", i, reverse(i));
+  printf("num: %d\t, reverese num =%d\n", i, reverse(i));
   return 0;
 
 }

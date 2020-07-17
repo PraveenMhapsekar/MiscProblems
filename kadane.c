@@ -6,36 +6,39 @@ int max(int x, int y) {
 
 void
 kadane(int *A, int n) {
-  int tmpMax = 0;
-  int maxSum = A[0];
+  int max_ending_here = 0;
+  int max_so_far = A[0];
   int i;
   int eIdx =  0;
   int idx = -1;
   int sIdx;
 
   for (i = 0; i < n; i++) {
-    //   tmpMax = max(A[i], A[i] + tmpMax);
-    if (A[i] > (A[i] + tmpMax)) {
-      // if current element is greater than current val plus tmpmax
+    //   max_ending_here = max(A[i], A[i] + tmpMax);
+    if (A[i] > (A[i] + max_ending_here)) {
+      // if current element is greater than current val plus tmpmax (going from -ve sum to +ve)
       // - use current val
       // - start of new subArray
 			idx = i;
-      tmpMax = A[i];
+      max_ending_here = A[i];
     } else {
-      tmpMax = A[i] + tmpMax;
+      max_ending_here = A[i] + max_ending_here;
     }
 
-    if (tmpMax > maxSum) {
-      // new maxSum
-      maxSum = tmpMax;
+
+    // New max_so_far?
+    if (max_ending_here > max_so_far) {
+      // new max_so_far
+      max_so_far = max_ending_here;
       // update idx'es
       eIdx = i;
       sIdx = idx;
+      printf("max_ending_here = %d, max_so_far = %d, sIdx = %d, eIdx = %d\n", max_ending_here, max_so_far,  sIdx, eIdx);
     }
-  }
+  }  // end of array
 
   // Print results
-  printf ("maxSum = %d\n sIndx = %d endIdx = %d\n", maxSum, sIdx, eIdx);
+  printf ("max_so_far = %d\n startIndx = %d endIdx = %d\n", max_so_far, sIdx, eIdx);
   for (i = sIdx; i <= eIdx; i++) {
     printf(" %d ", A[i]);
   }

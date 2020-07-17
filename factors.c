@@ -55,11 +55,17 @@ primeFactors(int A, int *len1) {
 	int i;
 	int cnt = 0;
 	int *retArr;
+
+  /* if NULL array , return */
 	if (A == 0) {
 		*len1 = 0;
 		return NULL; 
 	}
 
+  /* for i = 1 -> N/2
+       if N / i division results into remainder zero, i is factor of N
+       check if 'i' is prime number ( if this number can be divided only by 1 and number itself)
+   */
 	for (i = 1; i <= A/2; i++) {
 		if ((A % i) == 0) {
       if (isPrime(i)) {

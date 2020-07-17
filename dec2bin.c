@@ -11,7 +11,7 @@ char* findDigitsInBinary(int A) {
 	int k = 0;
 	int i;
 
-  /* find 2^n such that 2^N > A */	
+  /* find N ==> higesht power of 2  such that tmp = 2^n < A */	
 	do {
 		tmp = tmp << 1;
 		N++;
@@ -19,9 +19,12 @@ char* findDigitsInBinary(int A) {
 	 
 	N--;
 
-  /* Subtract 2^i (i --> N to 0) from A */ 
+  /* Subtract 2^i (i --> N to 0) from A
+     if there is remainder after this substraction set R[k] to 1 else 0
+   */ 
 	while (N >= 0) {
-		if (A >= (1 << N)) {
+		if (A - (1 << N)) {
+      printf("%d\n", 1 << N);
 			A = A - (1 << N);
 			R[k++] = '1';
 		} else {
@@ -40,7 +43,7 @@ main() {
 	int N = 32;
 	int i;
 	for (i = 0; i < N; i++) {
-	  printf("Dec %d \t==> Binary = %s\n", i, findDigitsInBinary(i));
+	  printf("Decimal %d \t==> Binary = %s\n", i, findDigitsInBinary(i));
 	}
 
 	return 0;

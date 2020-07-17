@@ -10,9 +10,11 @@ int isPrime(int A) {
 	int i;
 	if ( A < 1) 
 		return 0;
+
 	if (A == 1)
 		return 0;
-					
+
+  // 2 to N-1, for all i < N, if N is divisible by i then number in not Prime number. 					
 	for (i = 2; i < A; i++) {
 		if ((A % i) == 0) {
 			return 0;

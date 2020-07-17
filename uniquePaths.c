@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int uniquePaths(int A, int B) {
-	if ((A == 0) && (B == 0)) {
+int uniquePaths(int X, int Y) {
+	if ((X == 0) && (Y == 0)) {
     return 0; 
   }
 
-	if ((A == 1) || (B == 1)) {
+	if ((X == 1) || (Y == 1)) {
     return 1;
 	} else { 
-		return(uniquePaths(A-1, B) + uniquePaths(A, B -1));
+		return (uniquePaths(X-1, Y) + uniquePaths(X, Y -1));
   }
 }
 
