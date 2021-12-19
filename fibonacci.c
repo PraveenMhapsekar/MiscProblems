@@ -3,20 +3,21 @@
 int
 fibonacci(int N) {
   int i = 0;
-  int t1 = 0;
-  int t2 = 1;
-  int next = 0;
+  int f0 = 0;
+  int f1 = 1;
+  int f2 = 0;
   for (i = 0; i < N; i++) {
-    printf("%d ", t1);
-    next = t1 + t2;
-    t2 = t1;
-    t1 = next;
+    printf("%d ", f0);
+    f2 = f0 + f1;
+    f0 = f1;
+    f1 = f2;
   }
+  printf("\n");
 }
 
 int
-main () {
+main ()
+{
  fibonacci(11);
-
  return 0;
 }

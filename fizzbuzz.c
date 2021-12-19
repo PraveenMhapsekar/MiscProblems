@@ -7,7 +7,7 @@ multOf(int i, int j)
 }
 
 void
-fizzbuzz(int i)
+fizzBuzz(int i)
 {
     if (multOf(i, 15)) {
         printf("fizzbuzz\n");
@@ -26,8 +26,6 @@ main(void)
    int i;
 
    for (i = 0; i < 100; i++) {
-       fizzbuzz(i);
+       fizzBuzz(i);
    }
 }
-
-  
