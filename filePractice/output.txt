@@ -1,0 +1,3 @@
+Hadrosaurus          0.572	bipedal
+Struthiomimus        1.371	bipedal
+Tyrannosaurus Rex    6.454	bipedal
