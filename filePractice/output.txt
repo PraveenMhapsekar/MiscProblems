@@ -1,5 +1,0 @@
-Euoplocephalus       -3.822	bipedal
-Stegosaurus          0.000	bipedal
-Triceratops          4.606	bipedal
-Velociraptor         16.856	bipedal
-Tyrannosaurus Rex    31.948	bipedal

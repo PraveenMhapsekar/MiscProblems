@@ -1,9 +1,10 @@
-#include <math.h>
+#include <cmath>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
+ using namespace std;
 #define SIZE 4096
 #define REC_NUM 50
 
@@ -52,7 +53,7 @@ readFileToArr() {
 	}
 
 	while (fgets(buf, SIZE, fptr)) {
- 	  sscanf(buf, "%19[^,]"",""%f"",""%19[^ \n\t]",f1[i].name, &f1[i].legLen, f1[i].diet);
+ 	  sscanf(buf, "%19[^,]"",""%f"",""%19[^ \n\t]", f1[i].name, &f1[i].legLen, f1[i].diet);
 	  i++;
 	}
 
@@ -80,7 +81,7 @@ readFileToArr() {
   return i - 1;
 }
 
-int 
+void
 sortArr1(int count) {
 	f1_t temp;
 	int i, j;
@@ -99,14 +100,14 @@ sortArr1(int count) {
 	  printf("%s %f %s\n", f1[i].name, f1[i].legLen, f1[i].diet);
   }
 }
-
-int 
+// Selection sort
+void
 sortArr2(int count) {
 	f2_t temp;
 	int i, j;
 	for (i = 0; i <= count; i++) {
-		for (j = i+1; j <= count; j++) {
-			if (strcmp(f2[i].name, f2[j].name) >0){
+		for (j = i + 1; j <= count; j++) {
+			if (strcmp(f2[i].name, f2[j].name) > 0){
 				temp = f2[i];
 				f2[i] = f2[j];
 				f2[j] = temp;
@@ -120,7 +121,7 @@ sortArr2(int count) {
   }
 }
 
-int 
+void
 sortArr3(int count) {
 	f3_t temp;
 	int i, j;
@@ -146,30 +147,41 @@ sortArr3(int count) {
  Given the following formula, speed = ((STRIDE_LENGTH / LEG_LENGTH) - 1) * SQRT(LEG_LENGTH * g)
  Where g = 9.8 m/s^2 (gravitational constant) 
 */
-int 
+int
 mergeArray(int count) {
   printf("%s\n", __FUNCTION__);
-	int i, j;
-	for(i = 0; i <= count; i++){
-		strcpy(f3[i].name, f1[i].name);  
-		f3[i].legLen = f1[i].legLen;
-		strcpy(f3[i].diet, f1[i].diet);
-		f3[i].strideLen = f2[i].strideLen;
-	 	strcpy(f3[i].stance, f2[i].stance);
-		//f3[i].speed = (((f2[i].strideLen / f1[i].legLen) - 1) * sqrtf((f1[i].legLen * 9.8))) ;
-		f3[i].speed = (((f2[i].strideLen / f1[i].legLen) - 1) * ((f1[i].legLen * 9.8))) ;
-		printf("%s\t\t\t%f\t%s\n", f3[i].name, f3[i].speed, f3[i].stance);
+	int i = 0, j = 0, x = 0;
+  while ((i < count) && (j < count)) {
+    if (strcmp(f2[j].name, f1[i].name) == 0 ) {
+			strcpy(f3[x].name, f1[i].name);  
+			f3[x].legLen = f1[i].legLen;
+			strcpy(f3[x].diet, f1[i].diet);
+			f3[x].strideLen = f2[j].strideLen;
+			strcpy(f3[x].stance, f2[j].stance);
+			f3[x].speed = (((f2[j].strideLen / f1[i].legLen) - 1) * sqrtf((f1[i].legLen * 9.8))) ;
+			printf("%s\t\t\t%f\t%s\n", f3[x].name, f3[x].speed, f3[x].stance);
+      i++;
+      j++;
+      x++;
+    } else if (strcmp(f2[j].name, f1[i].name) > 0) {
+      i++;
+    } else {
+      j++;
+    }
   }
+  return x;
 }
 
 void
-printSelectedKey( int count, char *key, char *filename) {
+printSelectedKey( int count, const char *key, const char *filename) {
   FILE *fptr;
   fptr = fopen(filename, "w+");
+
   if (ferror(fptr)) {
     perror("printSelectedKey");
     return;
   } 
+
   printf("\n\nPrinting filtered entries matching key[%s]:\n",key);
 
   printf ("\nname\t\t\tspeed\tstance\n");
@@ -179,8 +191,8 @@ printSelectedKey( int count, char *key, char *filename) {
 		  printf("%-20s %2.3f\t%s\n", f3[i].name, f3[i].speed, f3[i].stance);
       fprintf(fptr, "%-20s %2.3f\t%s\n", f3[i].name, f3[i].speed, f3[i].stance);
 		}
-   }
-   fclose(fptr);
+  }
+  fclose(fptr);
 }
 
 int 
@@ -190,26 +202,26 @@ main() {
   // read files into array's A1[] & A2[]
   num = readFileToArr();
   if (num <= 0 ) {
-     fprintf(stderr, "readFileToArr"); 
-     return num;
-   }
+    fprintf(stderr, "readFileToArr"); 
+    return num;
+  }
 
   // sortArray A1[]
-   sortArr1(num);
+  sortArr1(num);
 
   // sortArray A2[]
-   sortArr2(num);
+  sortArr2(num);
 
   // Merge sorted array A1[] and A2[] in A3[]
   // Compute speed and store in A3[]
-  mergeArray(num);
+  int mSize = mergeArray(num);
 
   // Sort A3[] on 'speed'
-   sortArr3(num);
+  sortArr3(mSize);
 
   // print sorted A3[] with meeting criteria
   printSelectedKey(num, "bipedal", "output.txt");
-
+#if 0
   FILE *fp = fopen("output1.txt", "w+");
   if (ferror(fp)) {
     perror("main");
@@ -225,7 +237,7 @@ main() {
   fprintf(stdout, "printing after fseek\n");
   fprintf(stdout, "%s\n", buf);
 
-   system("sort -m f1.csv f2.csv > f3.csv");
-
+  system("sort -m f1.csv f2.csv > f3.csv");
+#endif
 	return 0;
 }
