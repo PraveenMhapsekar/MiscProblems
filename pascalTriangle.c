@@ -2,45 +2,52 @@
 #include <stdlib.h>
 
 int** pascal(int A) {
-	int **ptr;
-	int i;
-	int j;
+	int i, j;
   int *tptr;
-  ptr = (int **)malloc(A*sizeof(int)); //, sizeof(int));
-	if (!ptr) { printf("!ERRR\n"); return NULL; }
+	int **ptr =  NULL;
 
+  if (A == 0) return ptr;
+
+	ptr = (int **)malloc(A*sizeof(tptr)); //, sizeof(int));
+	if (!ptr) {
+		printf("!ERRR\n"); return NULL; 
+	}
+
+  // Allocate space for rows;
   for (i = 0; i < A; i++) {
-    tptr = (int *)malloc(A*sizeof(int));
-    if (tptr == NULL) {
+    ptr[i] = (int *)malloc(A*sizeof(int));
+    if (ptr[i] == NULL) {
       printf("memory allocation failed \n");
-    } else {
-      printf("%d --> %p\n", i, tptr);
-      ptr[i] = tptr;
     }
   }
 
-	for (i = 0; i < A; i++) {
-		for (j = 0; j <= i; j++) {
-			if ((i == j) || (j == 0) || (i == 0)) {
+  // Print Pascal's triangle
+	for (i = 0; i < A; i++) { // number of rows
+		for (j = 0; j <= i; j++) { // number of columns equal to row number
+			if ((i == j) || (j == 0) ) { // first and last column is always 1
 			  ptr[i][j] = 1;
-			  printf ("%d ", 1);
 			} else {
 			  ptr[i][j] = ptr[i-1][j-1] + ptr[i-1][j];
-			  printf ("%d ", ptr[i][j]);
 			}
+			printf ("%d ", ptr[i][j]);
 		}
 		printf("\n");
 	}
+
   return ptr;
 }
 
 int
-main() {
-  int **p;
+main(int argc, char **argv) {
+  int **p = NULL;
   int i, j, len1 = 6, len2 = 4;
-  int k = 18;
+	if (argc != 2) {
+    printf("wrong argumnet\n");
+    return 0;
+  }
+
+  int k = atoi(argv[1]);
   p = pascal(k);
-  if (!*p) return 0;
 #if 0
    for (i = 0; i < len1; i++) {
      for(j = 0; j < len2; j++) {

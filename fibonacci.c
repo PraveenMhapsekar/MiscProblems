@@ -5,7 +5,7 @@ fibonacci(int N) {
   int i = 0;
   int f0 = 0;
   int f1 = 1;
-  int f2 = 0;
+  int f2;
   for (i = 0; i < N; i++) {
     printf("%d ", f0);
     f2 = f0 + f1;
